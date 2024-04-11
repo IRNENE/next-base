@@ -72,6 +72,7 @@ export default function ControlledForm() {
     setPetsX(nextPetsX);
   };
 
+  // 全選的核取方塊用的事件處理函式
   const handleToggleCheckedAll = (e) => {
     const nextPetsX = petsX.map((v, i) => {
       //  強制所有選項物件的checked屬性和全選的e.target.checked完全一致
@@ -80,6 +81,10 @@ export default function ControlledForm() {
     });
     setPetsX(nextPetsX);
   };
+
+  // select
+  const cityOptions = ['台北市', '台中市', '桃園市'];
+  const [city, setCity] = useState('');
 
   return (
     <>
@@ -232,6 +237,28 @@ export default function ControlledForm() {
             </label>
           );
         })}
+      </section>
+
+      <section title="select">
+        <h2>下拉清單(select)</h2>
+        <select
+          // react中為了存取值方便，修改讓select可以用value屬性(類似於textarea)
+          value={city}
+          onChange={(e) => {
+            setCity(e.target.value);
+          }}
+        >
+          {/* 為了要完全綁定對應的狀態，狀態初始值為空字串要與這選項一致 */}
+          <option value="">請選擇城市</option>
+          {/* 這樣可以確保在初始狀態下""和選擇框option value=""值一致會顯示這個選項，而不是實際城市名稱 */}
+          {cityOptions.map((v, i) => {
+            return (
+              <option key={i} value={v}>
+                {v}
+              </option>
+            );
+          })}
+        </select>
       </section>
     </>
   );
