@@ -41,7 +41,7 @@ export default function RegisterForm() {
     // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Object_initializer#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%90%8D
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // 阻擋表單預設送出行為
     e.preventDefault();
 
@@ -102,7 +102,18 @@ export default function RegisterForm() {
     // 表單檢查 --- END
 
     // 最後檢查完全沒問題才送到伺服器(ajax/fetch)
-    alert('送到伺服器去');
+    const res = await fetch('http://localhost:3005/api/members', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+
+    const data = await res.json();
+
+    console.log(data);
   };
 
   return (
