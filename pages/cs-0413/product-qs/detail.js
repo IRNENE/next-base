@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
+
 import { useRouter } from 'next/router';
-// 載入指示動畫
-import Loader from '@/components/product/loader';
-import LoadingBar from 'react-top-loading-bar';
 
 // 第2階段: 資料來自伺服器
 // 資料來源: `https://my-json-server.typicode.com/eyesofkids/json-fake-data/products/${pid}`
@@ -31,11 +29,6 @@ export default function Detail() {
     tags: '',
   });
 
-  // 信號: 是否正在載入資料
-  const [isLoading, setIsLoading] = useState(true);
-  // 最上方的載入進度條
-  const [progress, setProgress] = useState(0);
-
   // 宣告出router物件，在其中可以得到兩個有用值
   // router.query，是一個物件，其中有動態路由的參數值pid
   // router.isReady，是一個布林值，代表本頁面元件已完成水合作用，可以得到pid值
@@ -55,15 +48,8 @@ export default function Detail() {
 
       // 為了要確保資料是物件，所以檢查後再設定
       if (typeof data === 'object' && data !== null) {
-        // 上方進度動畫控制加50%
-        setProgress(40);
         // 設定到狀態中
         setProduct(data);
-        // 關起載入中，撥放動畫約1.5秒再關閉
-        setTimeout(() => {
-          setIsLoading(false);
-          setProgress(100);
-        }, 1500);
       } else {
         console.log('伺服器回傳資料類型錯誤，無法設定到狀態中');
       }
@@ -84,12 +70,12 @@ export default function Detail() {
   }, [router.isReady])
   // eslint會作多餘的檢查，不需要加router.query在相依陣列中
 
-  const display = (
+  return (
     <>
       <h1>商品詳細頁</h1>
       <button
         onClick={() => {
-          router.push('/cs-0413/product/list');
+          router.push('/cs-0413/product-qs/list');
         }}
       >
         回到列表頁
@@ -101,13 +87,6 @@ export default function Detail() {
       <p>商品名稱: {product.name}</p>
       <p>商品價格: {product.price}</p>
       <p>商品庫存: {product.stock}</p>
-    </>
-  );
-
-  return (
-    <>
-      <LoadingBar progress={progress} />
-      {isLoading ? <Loader /> : display}
     </>
   );
 }

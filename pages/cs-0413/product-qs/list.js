@@ -60,7 +60,7 @@ export default function List() {
         {products.map((v, i) => {
           return (
             <li key={v.id}>
-              <Link href={`/cs-0413/product/${v.id}`}>
+              <Link href={`/cs-0413/product-qs/detail?pid=${v.id}`}>
                 {v.name}/{v.price}
               </Link>
             </li>
