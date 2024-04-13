@@ -43,7 +43,9 @@ export default function Detail() {
 
   // 與伺服器要求獲取資料的async函式
   const getProduct = async (pid) => {
-    const url = `https://my-json-server.typicode.com/eyesofkids/json-fake-data/products/${pid}`;
+    // const url = `https://my-json-server.typicode.com/eyesofkids/json-fake-data/products/${pid}`;
+
+    const url = `http://localhost:3005/api/my-products/${pid}`;
 
     // 如果用了async-await，實務上要習慣使用try...catch來處理錯誤
     try {
@@ -54,11 +56,11 @@ export default function Detail() {
       console.log(data);
 
       // 為了要確保資料是物件，所以檢查後再設定
-      if (typeof data === 'object' && data !== null) {
+      if (typeof data.data.product === 'object' && data.data.product !== null) {
         // 上方進度動畫控制加50%
-        setProgress(40);
+        setProgress(25);
         // 設定到狀態中
-        setProduct(data);
+        setProduct(data.data.product);
         // 關起載入中，撥放動畫約1.5秒再關閉
         setTimeout(() => {
           setIsLoading(false);
